@@ -1,5 +1,8 @@
 pipeline {
     agent any
+     environment {
+        BUCKET_NAME = "jenkins-udemy-0"
+    }
 
     stages {
         stage('AWS') {
@@ -14,6 +17,9 @@ pipeline {
                     // some block
                     sh''' 
                     aws --version
+                    echo "Uploading website files to S3..."
+                    aws s3 sync FirstWebsite/ s3://$BUCKET_NAME --delete
+                    echo "Upload completed successfully"
                     aws s3 ls
                 
                      '''
